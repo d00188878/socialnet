@@ -23,6 +23,11 @@ class userDB:
         user = self.cursor.fetchone()
         return user
     
+    def getAllUsers(self):
+        self.cursor.execute("SELECT * FROM users")
+        users = self.cursor.fetchall()
+        return users
+    
     def updateUser(self, username, email, password_encrypted, id):
         data = [username, email, password_encrypted, id]
         self.cursor.execute("UPDATE users SET username=?, email=?, password_encrypted=? WHERE id=?", data)
