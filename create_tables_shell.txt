@@ -1,0 +1,24 @@
+CREATE TABLE users (
+user_id INTEGER PRIMARY KEY,
+username TEXT NOT NULL UNIQUE,
+email TEXT NOT NULL UNIQUE,
+password_encrypted TEXT NOT NULL
+);
+
+
+CREATE TABLE following (
+following_id INTEGER,
+follower_id INTEGER
+);
+
+CREATE TABLE posts (
+user_id INTEGER,
+post_type TEXT,
+post_content TEXT,
+time_stamp DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE blocked (
+blocking_id INTEGER,
+blocker_id INTEGER
+);
