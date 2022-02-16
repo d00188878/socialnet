@@ -1,0 +1,10 @@
+Explain how to run your tests
+
+To run our tests/queries we used user inputs, depending on the user's
+choice input we sent the responses to run the queries
+
+Depending on the user's choice the user types the required information
+and that information it is then sent to the selected method from the 
+data getter functions (DFG) class.
+
+
