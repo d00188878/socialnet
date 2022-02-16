@@ -1,16 +1,17 @@
 from sqlite3 import Timestamp
 from userDbFunctions import *
+from newDbFunctions import *
 from followingDbFunctions import *
 from blockedDbFunctions import *
 from postDbFunctions import *
 from postVotesDbFunctions import *
-import bcrypt, time
+import time, os
 
 def handleInsertUser(username, email, password):
     db = userDB()
     #insert user if user does not already exist
-    salt = bcrypt.gensalt()
-    password = bcrypt.hashpw(password, salt)
+    # salt = bcrypt.gensalt()
+    # password = bcrypt.hashpw(password, salt)
     db.insertUser(username, email, password)
 
 def handleGetUser(id):
@@ -63,6 +64,10 @@ def handleGetSeveralPostsByFollowerId(id, n):
     db = postDB()
     return db.getSeveralPostsByFollowerId(id, n)
 
+def handleRemovePost(id):
+    db = postDB()
+    db.removePost(id)
+
 def handleInsertVote(vote_type, voter_id, post_id):
     db = votesDB()
     db.insertVote(vote_type, voter_id, post_id)
@@ -83,3 +88,6 @@ def handleGetAllDislikesByPostId(post_id):
     db = votesDB()
     return db.getAllDislikesByPostId(post_id)
 
+def recreateDb():
+    db = newDB()
+    db.createFreshDb()

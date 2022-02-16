@@ -8,7 +8,7 @@ def dict_factory(cursor, row):
 
 class userDB:
     def __init__(self):
-        self.connection = sqlite3.connect("users.db")
+        self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
 
@@ -19,7 +19,7 @@ class userDB:
 
     def getUser(self, id):
         data = [id]
-        self.cursor.execute("SELECT * FROM users WHERE id = ?", data)
+        self.cursor.execute("SELECT * FROM users WHERE user_id=?", data)
         user = self.cursor.fetchone()
         return user
     
@@ -30,5 +30,5 @@ class userDB:
     
     def updateUser(self, username, email, password_encrypted, id):
         data = [username, email, password_encrypted, id]
-        self.cursor.execute("UPDATE users SET username=?, email=?, password_encrypted=? WHERE id=?", data)
+        self.cursor.execute("UPDATE users SET username=?, email=?, password_encrypted=? WHERE user_id=?", data)
         self.connection.commit()

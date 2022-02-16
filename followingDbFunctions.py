@@ -8,7 +8,7 @@ def dict_factory(cursor, row):
 
 class followingDB:
     def __init__(self):
-        self.connection = sqlite3.connect("following.db")
+        self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
 

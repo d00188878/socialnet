@@ -1,22 +1,25 @@
 import dataGetterFunctions as DGF
 
+#TODO: ONLY ALLOW USER-RELATED OPERATIONS IF ALL INVOLVED USER IDS EXIST IN THE USER TABLE
+# TODO: ALLOW POST REMOVAL
+#TODO: ALLOW USER REMOVAL
+#TODO: CASCADE WHEN USER DELETED
+
 def getUserInput():
     cin = input()
     return list(cin)
 
-# def handleRequestDataType(data):
-#     if data[0] = 
-
 def printDataTypeOptions():
     intro = """
-    Welcome!\n
-    Please select a data type to work with (just enter the letter in the brackets)\n\n
+    Welcome!
+    Please select a data type to work with (just enter the letter in the brackets)
 
-    [u] Users\n
-    [p] Posts\n
-    [f] Follows\n
-    [b] Blocklists\n
-    [v] Votes\n
+    [u] Users
+    [p] Posts
+    [f] Follows
+    [b] Blocklists
+    [v] Votes
+    [r] Recreate database from scratch 
     [q] Quit
     """
     print(intro)
@@ -27,12 +30,12 @@ def selectOption():
 
 def printUserOptions():
     userOptionsDialogue = """
-    Viewing user options.\n
-    Select an option (mind the syntax).\n\n
-    [i] Insert user (syntax: i <username> <email> <password>)\n
-    [g] Get one user by ID (syntax: g <id>)\n
-    [ga] Get all users and their information (syntax: ga)\n
-    [u] Update one user's information (syntax: u <username> <email> <password> <id>)\n
+    Viewing user options.
+    Select an option (mind the syntax).
+    [i] Insert user (syntax: i <username> <email> <password>)
+    [g] Get one user by ID (syntax: g <id>)
+    [ga] Get all users and their information (syntax: ga)
+    [u] Update one user's information (syntax: u <username> <email> <password> <id>)
     [q] Go back
     """
     print(userOptionsDialogue)
@@ -40,7 +43,7 @@ def printUserOptions():
 def notEnoughArguments():
     print("Not enough arguments provided")
 
-def validateUserOption():
+def validateUserOption(choice):
     if choice[0] == "i":
         if len(choice) >= 4:
             DGF.handleInsertUser(choice[1], choice[2], choice[3])
@@ -49,12 +52,12 @@ def validateUserOption():
         return False
     elif choice[0] == "g":
         if len(choice) >= 2:
-            DGF.handleGetUser(choice[1])
+            print(DGF.handleGetUser(choice[1]))
         else:
             notEnoughArguments()
         return False
     elif choice[0] == "ga":
-        DGF.handleGetAllUsers() 
+        print(DGF.handleGetAllUsers())
         return False
     elif choice[0] == "u":
         if len(choice) >= 5:
@@ -79,13 +82,13 @@ def getUserQueryInput():
 
 def printPostOptions():
     postOptionsDialogue = """
-    Viewing post options.\n
-    Select an option (mind the syntax).\n\n
-    [i] Insert post (syntax: i <user_id> <post_content> <parent_post_id (optional)>)\n
-    [g] Get one post by ID (syntax: g <user_id>)\n
-    [u] Update one post's content by ID (syntax: u <post_content> <id>)\n
-    [ga] Get all posts and their information by one poster's ID (syntax: ga)\n
-    [gs] Get n posts from a user's list of followed users, by the ID of that user (syntax: gs <user_id> <n>)\n
+    Viewing post options.
+    Select an option (mind the syntax).
+    [i] Insert post (syntax: i <user_id> <post_content> <parent_post_id (optional)>)
+    [g] Get one post by ID (syntax: g <user_id>)
+    [u] Update one post's content by ID (syntax: u <post_content> <id>)
+    [ga] Get all posts and their information by one poster's ID (syntax: ga)
+    [gs] Get n posts from a user's list of followed users, by the ID of that user (syntax: gs <user_id> <n>)
     [q] Go back
     """
     print(postOptionsDialogue)
@@ -96,7 +99,7 @@ def validatePostOption(choice):
             if len(choice) >= 4:
                 DGF.handleInsertPost(choice[1], choice[2], choice[3])
             else:
-                DGF.handleInsertUser(choice[1], choice[2])
+                DGF.handleInsertPost(choice[1], choice[2])
         else:
             notEnoughArguments()
         return False
@@ -141,12 +144,12 @@ def getPostQueryInput():
 
 def printFollowsOptions():
     followsOptionsDialogue = """
-    Viewing follows options.\n
-    Select an option (mind the syntax).\n\n
-    [i] Insert follow (syntax: i <following_id> <follower_id>)\n
-    [gto] Get all users that one user is following, by that user's ID (syntax: gto <follower_id>)\n
-    [gfrom] Get all users following one user, by that user's ID (syntax: gfrom <following_id>)\n
-    [r] Remove one user's following of another user (syntax: r <following_id> <follower_id>)\n
+    Viewing follows options.
+    Select an option (mind the syntax).
+    [i] Insert follow (syntax: i <following_id> <follower_id>)
+    [gto] Get all users that one user is following, by that user's ID (syntax: gto <follower_id>)
+    [gfrom] Get all users following one user, by that user's ID (syntax: gfrom <following_id>)
+    [r] Remove one user's following of another user (syntax: r <following_id> <follower_id>)
     [q] Go back
     """
     print(followsOptionsDialogue)
@@ -191,6 +194,28 @@ def getFollowsQueryInput():
             break
     return
 
+def printBlocklistOptions():
+    blocklistOptionsDialogue = """
+    Viewing blocklist options.
+    Select an option (mind the syntax).
+    [i] Insert block (syntax: i <user_id> <post_content> <parent_post_id (optional)>)
+    [ga] Get all user IDs that are blocked by one user (syntax: g <user_id>)
+    [u] Update one post's content by ID (syntax: u <post_content> <id>)
+    [ga] Get all posts and their information by one poster's ID (syntax: ga)
+    [gs] Get n posts from a user's list of followed users, by the ID of that user (syntax: gs <user_id> <n>)
+    [q] Go back
+    """
+    print(blocklistOptionsDialogue)
+
+def getBlocklistsQueryInput():
+    notFinished = True
+    while notFinished:
+        printBlocklistOptions()
+        choice = selectOption()
+        if validateBlocklistOption(choice):
+            break
+    return
+
 def validateDataTypeOption(choice):
     choice = choice[0]
     if choice == "u":
@@ -210,6 +235,12 @@ def validateDataTypeOption(choice):
         return False
     elif choice == "q":
         return True
+    elif choice == "r":
+        confirm = input("Really delete the database? input y to confirm: ")
+        if confirm == "y" or confirm == "Y":
+            DGF.recreateDb()
+        else:
+            return False
     else:
         print("Invalid input.")
         return False

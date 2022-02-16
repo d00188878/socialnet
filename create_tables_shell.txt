@@ -16,7 +16,8 @@ post_id INTEGER PRIMARY KEY,
 user_id INTEGER,
 post_type TEXT,
 post_content TEXT,
-time_stamp DATE NOT NULL DEFAULT CURRENT_TIMESTAMP
+time_stamp DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+parent_post_id INTEGER
 );
 
 CREATE TABLE blocked (

@@ -8,7 +8,7 @@ def dict_factory(cursor, row):
 
 class blockedDB:
     def __init__(self):
-        self.connection = sqlite3.connect("blocked.db")
+        self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
 

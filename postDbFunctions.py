@@ -8,14 +8,14 @@ def dict_factory(cursor, row):
 
 class postDB:
     def __init__(self):
-        self.connection = sqlite3.connect("posts.db")
+        self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
 
     # the parent post id thing means we're going to let people do reblogs of other posts and add on their own comments, a la tumblr
     def insertPost(self, user_id, post_content, parent_post_id, timestamp):
         data = [user_id, post_content, timestamp, parent_post_id]
-        self.cursor.execute("INSERT INTO posts (user_id, post_content, timestamp, parent_post_id) VALUES (?, ?, ?, ?, ?)", data)
+        self.cursor.execute("INSERT INTO posts (user_id, post_content, time_stamp, parent_post_id) VALUES (?, ?, ?, ?, ?)", data)
         self.connection.commit()
 
     # TODO: RECURSIVELY GET CHILD POSTS BY PARENT POST ID
