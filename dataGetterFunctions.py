@@ -44,16 +44,15 @@ def handleRemoveFollow(following_id, follower_id):
     db.removeFollow()
 
 def handleInsertPost(user_id, post_content, parent_post_id = None):
-    timestamp = time.time()
     db = postDB()
-    db.insertPost(user_id, post_content, timestamp, parent_post_id)
+    db.insertPost(user_id, post_content, parent_post_id)
 
 def handleGetPost(id):
     db = postDB()
     return db.getPost(id)
 
 def handleUpdatePost(post_content, id):
-    db = postDB
+    db = postDB()
     db.updatePost(post_content, id)
 
 def handleGetAllPostsByPosterId(user_id):

@@ -87,7 +87,7 @@ def printPostOptions():
     [i] Insert post (syntax: i <user_id> <post_content> <parent_post_id (optional)>)
     [g] Get one post by ID (syntax: g <user_id>)
     [u] Update one post's content by ID (syntax: u <post_content> <id>)
-    [ga] Get all posts and their information by one poster's ID (syntax: ga)
+    [ga] Get all posts and their information by one poster's ID (syntax: ga <user_id>)
     [gs] Get n posts from a user's list of followed users, by the ID of that user (syntax: gs <user_id> <n>)
     [q] Go back
     """
@@ -105,13 +105,13 @@ def validatePostOption(choice):
         return False
     elif choice[0] == "g":
         if len(choice) >= 2:
-            DGF.handleGetPost(choice[1])
+            print(DGF.handleGetPost(choice[1]))
         else:
             notEnoughArguments()
         return False
     elif choice[0] == "ga":
         if len(choice) >= 2:
-            DGF.handleGetAllPostsByPosterId(choice[1])
+            print(DGF.handleGetAllPostsByPosterId(choice[1]))
         else:
             notEnoughArguments()
         return False
@@ -123,7 +123,7 @@ def validatePostOption(choice):
         return False
     elif choice[0] == "gs":
         if len(choice) >= 3:
-            DGF.handleGetSeveralPostsByFollowerId(choice[1], choice[2])
+            print(DGF.handleGetSeveralPostsByFollowerId(choice[1], choice[2]))
         else:
             notEnoughArguments()
         return False
@@ -163,13 +163,13 @@ def validateFollowsOption(choice):
         return False
     elif choice[0] == "gto":
         if len(choice) >= 2:
-            DGF.handleGetAllFollowingByFollowerId(choice[1])
+            print(DGF.handleGetAllFollowingByFollowerId(choice[1]))
         else:
             notEnoughArguments()
         return False
     elif choice[0] == "gfrom":
         if len(choice) >= 2:
-            DGF.handleGetAllFollowersByFollowingId(choice[1])
+            print(DGF.handleGetAllFollowersByFollowingId(choice[1]))
         else:
             notEnoughArguments()
         return False

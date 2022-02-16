@@ -13,9 +13,9 @@ class postDB:
         self.cursor = self.connection.cursor()
 
     # the parent post id thing means we're going to let people do reblogs of other posts and add on their own comments, a la tumblr
-    def insertPost(self, user_id, post_content, parent_post_id, timestamp):
-        data = [user_id, post_content, timestamp, parent_post_id]
-        self.cursor.execute("INSERT INTO posts (user_id, post_content, time_stamp, parent_post_id) VALUES (?, ?, ?, ?, ?)", data)
+    def insertPost(self, user_id, post_content, parent_post_id):
+        data = [user_id, post_content, parent_post_id]
+        self.cursor.execute("INSERT INTO posts (user_id, post_content, parent_post_id) VALUES (?, ?, ?)", data)
         self.connection.commit()
 
     # TODO: RECURSIVELY GET CHILD POSTS BY PARENT POST ID
@@ -24,7 +24,7 @@ class postDB:
 
     def getPost(self, id):
         data = [id]
-        self.cursor.execute("SELECT * FROM posts WHERE id = ?", data)
+        self.cursor.execute("SELECT * FROM posts WHERE id=?", data)
         posts = self.cursor.fetchone()
         return post
     
@@ -36,14 +36,14 @@ class postDB:
     # get all existing posts that one person has ever posted
     def getAllPostsByPosterId(self, user_id):
         data = [user_id]
-        self.cursor.execute("SELECT * FROM posts WHERE user_id = ?", data)
+        self.cursor.execute("SELECT * FROM posts WHERE user_id=?", data)
         posts = self.cursor.fetchall()
         return posts
     
     # find all posts by users that a certain user is following, in chronological order, limited to a given number
     def getSeveralPostsByFollowerId(self, id, n):
         data = [id, n]
-        posts = self.cursor.fetchmany("SELECT * FROM posts JOIN following ON following.follower_id = ? as op_id HAVING posts.user_id = op_id ORDER BY timestamp LIMIT ?", data)
+        posts = self.cursor.fetchmany("SELECT * FROM posts JOIN following ON following.follower_id=? as op_id HAVING posts.user_id = op_id ORDER BY time_stamp LIMIT ?", data)
         return posts
     
     def removePost(self, id):
