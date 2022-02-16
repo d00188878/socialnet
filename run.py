@@ -14,7 +14,7 @@ if choice =="2":
     network.getUserById(int(userid))
 if choice =="3":
     userid = input("Enter User's ID: ")
-    network.getUserByUsername(int(userid))
+    network.getUserByUsername(userid)
 if choice =="4":
     username = input("Enter Username: ")
     email = input("Enter Email: ")

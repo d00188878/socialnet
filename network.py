@@ -23,13 +23,15 @@ class socialNetwork:
         data = [id]
         self.cursor.execute("SELECT * FROM users WHERE user_id = ?", data)
         user = self.cursor.fetchone()
-        return user
+        #return user
+        print(user)
     
     def getUserByUsername(self, username):
         data = [username]
         self.cursor.execute("SELECT * FROM users WHERE username = ?", data)
         user = self.cursor.fetchone()
-        return user
+        #return user
+        print(user)
     
     def updateUser(self, username, email, password_encrypted, id):
         data = [username, email, password_encrypted, id]
@@ -50,14 +52,16 @@ class socialNetwork:
         data = [follower_id]
         self.cursor.execute("SELECT * FROM following WHERE follower_id = ?", data)
         users = self.cursor.fetchall()
-        return users
+        #return users
+        print(users)
     
     # get all users that are following one particular person
     def getAllFollowersByFollowingId(self, following_id):
         data = [following_id]
         self.cursor.execute("SELECT * FROM following WHERE following_id = ?", data)
         users = self.cursor.fetchall()
-        return users
+        #return users
+        print(users)
 
     # allow one user to unfollow another user
     def removeFollow(self, following_id, follower_id):
@@ -68,18 +72,19 @@ class socialNetwork:
     ##  posts table
     def insertPost(self, user_id, post_type, post_content):
         data = [user_id, post_type, post_content]
-        self.cursor.execute("INSERT INTO posts (user_id, post_type, post_content, timestamp) VALUES (?, ?, ?)", data)
+        self.cursor.execute("INSERT INTO posts (user_id, post_type, post_content) VALUES (?, ?, ?)", data)
         self.connection.commit()
 
     def getPost(self, id):
         data = [id]
-        self.cursor.execute("SELECT * FROM posts WHERE id = ?", data)
+        self.cursor.execute("SELECT * FROM posts WHERE post_id = ?", data)
         posts = self.cursor.fetchone()
-        return post
+        #return post
+        print(posts)
     
     def updatePost(self, post_content, id):
         data = [post_content, id]
-        self.cursor.execute("UPDATE posts SET post_content=? WHERE id=?", data)
+        self.cursor.execute("UPDATE posts SET post_content=? WHERE post_id=?", data)
         self.connection.commit()
         
     ## block table
@@ -95,7 +100,8 @@ class socialNetwork:
         data = [blocker_id]
         self.cursor.execute("SELECT * FROM blocked WHERE blocker_id = ?", data)
         users = self.cursor.fetchall()
-        return users
+        #return users
+        print(users)
 
     # allow one user to unblock another user
     def removeBlock(self, blocking_id, blocker_id):

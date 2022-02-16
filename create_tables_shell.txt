@@ -12,6 +12,7 @@ follower_id INTEGER
 );
 
 CREATE TABLE posts (
+post_id INTEGER PRIMARY KEY,
 user_id INTEGER,
 post_type TEXT,
 post_content TEXT,
