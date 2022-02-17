@@ -90,6 +90,7 @@ def printPostOptions():
     [u] Update one post's content by ID (syntax: u <post_content> <id>)
     [ga] Get all posts and their information by one poster's ID (syntax: ga <user_id>)
     [gs] Get n posts from a user's list of followed users, by the ID of that user (syntax: gs <user_id> <n>)
+    [gr] Remove a post by post ID (syntax: gd <post_content> <id>)
     [q] Go back
     """
     print(postOptionsDialogue)
@@ -128,6 +129,9 @@ def validatePostOption(choice):
         else:
             notEnoughArguments()
         return False
+    elif choice[0] == "gr":
+        if len(choice) >= 2:
+            DFG.removePost(choice[1])
     elif choice[0] == "q":
         return True
     else:
