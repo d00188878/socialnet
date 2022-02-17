@@ -43,12 +43,11 @@ class newDB:
 
         postData = """
         CREATE TABLE posts (
-            post_id INTEGER PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             user_id INTEGER,
-            post_type TEXT,
             post_content TEXT,
-            time_stamp DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            parent_post_id INTEGER
+            parent_post_id INTEGER,
+            time_stamp DATE DEFAULT CURRENT_TIMESTAMP
         );"""
         self.cursor.execute(postData)
         self.connection.commit()

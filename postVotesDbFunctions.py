@@ -25,19 +25,19 @@ class votesDB:
     # get all the votes assigned to one particular post, regardless of type
     def getAllVotesByPostId(self, post_id):
         data = [post_id]
-        self.cursor.execute("SELECT * FROM votes WHERE post_id = ?", data)
+        self.cursor.execute("SELECT * FROM votes WHERE post_id=?", data)
         posts = self.cursor.fetchall()
         return posts
 
     def getAllLikesByPostId(self, post_id):
         data = [post_id]
-        self.cursor.execute("SELECT * FROM votes WHERE post_id = ? and vote_type=0", data)
+        self.cursor.execute("SELECT * FROM votes WHERE post_id=? and vote_type=0", data)
         posts = self.cursor.fetchall()
         return posts
 
     def getAllDislikesByPostId(self, post_id):
         data = [post_id]
-        self.cursor.execute("SELECT * FROM votes WHERE post_id = ? and vote_type=1", data)
+        self.cursor.execute("SELECT * FROM votes WHERE post_id=? and vote_type=1", data)
         posts = self.cursor.fetchall()
         return posts
 

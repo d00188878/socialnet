@@ -21,19 +21,19 @@ class followingDB:
     # get all users that one person is following
     def getAllFollowingByFollowerId(self, follower_id):
         data = [follower_id]
-        self.cursor.execute("SELECT * FROM users WHERE follower_id = ?", data)
+        self.cursor.execute("SELECT * FROM users WHERE follower_id=?", data)
         users = self.cursor.fetchall()
         return users
     
     # get all users that are following one particular person
     def getAllFollowersByFollowingId(self, following_id):
         data = [following_id]
-        self.cursor.execute("SELECT * FROM users WHERE following_id = ?", data)
+        self.cursor.execute("SELECT * FROM users WHERE following_id=?", data)
         users = self.cursor.fetchall()
         return users
 
     # allow one user to unfollow another user
     def removeFollow(self, following_id, follower_id):
         data = [following_id, follower_id]
-        self.cursor.execute("DELETE FROM users WHERE follower_id = ? AND following_id = ?", data)
+        self.cursor.execute("DELETE FROM users WHERE follower_id=? AND following_id=?", data)
         self.connection.commit()

@@ -21,12 +21,12 @@ class blockedDB:
     # get all users that one person is blocking
     def getAllBlockedByBlockerId(self, blocker_id):
         data = [blocker_id]
-        self.cursor.execute("SELECT * FROM blocked WHERE blocker_id = ?", data)
+        self.cursor.execute("SELECT * FROM blocked WHERE blocker_id=?", data)
         users = self.cursor.fetchall()
         return users
 
     # allow one user to unblock another user
     def removeBlock(self, blocking_id, blocker_id):
         data = [blocking_id, blocker_id]
-        self.cursor.execute("DELETE FROM blocked WHERE blocking_id = ? AND blocker_id = ?", data)
+        self.cursor.execute("DELETE FROM blocked WHERE blocking_id=? AND blocker_id=?", data)
         self.connection.commit()
