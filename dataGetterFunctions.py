@@ -18,6 +18,10 @@ def handleGetUser(id):
     db = userDB()
     return db.getUser(id)
 
+def handleDeleteUser(id):
+    db = userDB()
+    return db.deleteUser(id)
+
 def handleGetAllUsers():
     db = userDB()
     return db.getAllUsers()

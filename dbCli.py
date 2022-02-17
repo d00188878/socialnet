@@ -36,6 +36,7 @@ def printUserOptions():
     [g] Get one user by ID (syntax: g <id>)
     [ga] Get all users and their information (syntax: ga)
     [u] Update one user's information (syntax: u <username> <email> <password> <id>)
+    [r] Remove User (syntax: r <id>)
     [q] Go back
     """
     print(userOptionsDialogue)
@@ -59,6 +60,9 @@ def validateUserOption(choice):
     elif choice[0] == "ga":
         print(DGF.handleGetAllUsers())
         return False
+    elif choice[0] == "r":
+        if len(choice) >= 2:
+            DGF.handleDeleteUser(choice[1])
     elif choice[0] == "u":
         if len(choice) >= 5:
             DGF.handleUpdateUser(choice[1], choice[2], choice[3], choice[4])

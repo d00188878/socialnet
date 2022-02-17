@@ -17,6 +17,11 @@ class userDB:
         self.cursor.execute("INSERT INTO users (username, email, password_encrypted) VALUES (?, ?, ?)", data)
         self.connection.commit()
 
+    def deleteUser(self, id):
+        data = [id]
+        self.cursor.execute("DELETE FROM users where user_id=?", data)
+        self.connection.commit()
+        
     def getUser(self, id):
         data = [id]
         self.cursor.execute("SELECT * FROM users WHERE user_id=?", data)
