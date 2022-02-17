@@ -1,8 +1,6 @@
 import dataGetterFunctions as DGF
 
 #TODO: ONLY ALLOW USER-RELATED OPERATIONS IF ALL INVOLVED USER IDS EXIST IN THE USER TABLE
-#TODO: ALLOW USER REMOVAL
-#TODO: CASCADE BLOCK, FOLLOW, VOTES WHEN USER DELETED
 #TODO: clean up data ordering in db functions and table
 
 def getUserInput():

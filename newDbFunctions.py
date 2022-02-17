@@ -29,7 +29,7 @@ class newDB:
             username TEXT NOT NULL UNIQUE,
             email TEXT NOT NULL UNIQUE,
             password_encrypted TEXT NOT NULL
-            PRIMARY KEY (user_id)
+            FOREIGN KEY (user_id)
         );"""
         self.cursor.execute(tableData)
         self.connection.commit()
@@ -38,7 +38,7 @@ class newDB:
         CREATE TABLE following (
             following_id INTEGER,
             follower_id INTEGER
-            PRIMARY KEY (following) REFERENCES users (user_id) ON DELETE CASCADE
+            FOREIGN KEY (following) REFERENCES users (user_id) ON DELETE CASCADE
         );"""
         self.cursor.execute(followingData)
         self.connection.commit()
@@ -69,7 +69,7 @@ class newDB:
         CREATE TABLE blocked (
             blocked_id INTEGER,
             blocker_id INTEGER
-            FOREIGN KEY (blocker_id) REFERENCES users (user_id) ON DELETE CASCADE
+            FOREIGN KEY (blocker_id, blocked_id) REFERENCES users (user_id) ON DELETE CASCADE
         );
         """
         self.cursor.execute(blockedData)
