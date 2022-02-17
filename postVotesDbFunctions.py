@@ -30,7 +30,6 @@ class votesDB:
         posts = self.cursor.fetchall()
         return posts
 
-    #TODO: this doesn't work?
     def getAllLikesByPostId(self, post_id):
         data = [post_id]
         self.cursor.execute("SELECT * FROM votes WHERE post_id=? and vote_type=0", data)

@@ -25,7 +25,7 @@ class postDB:
     def getPost(self, id):
         data = [id]
         self.cursor.execute("SELECT * FROM posts WHERE id=?", data)
-        posts = self.cursor.fetchone()
+        post = self.cursor.fetchone()
         return post
     
     def updatePost(self, post_content, id):
