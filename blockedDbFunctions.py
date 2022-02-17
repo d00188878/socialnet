@@ -11,6 +11,11 @@ class blockedDB:
         self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
+    
+    def checkBlocked(self, blocked_id, blocker_id):
+        data = [blocked_id, blocker_id]
+        self.cursor.execute("SELECT 1 FROM blocked WHERE blocked_id=? AND blocker_id=?", data)
+        users = self.cursor.fetchone()
 
     # allow one user to block another user
     def insertBlocked(self, blocked_id, blocker_id):
@@ -19,6 +24,7 @@ class blockedDB:
         if blocked_id == blocker_id:
             return
         data = [blocked_id, blocker_id]
+        # alreadyBlocked = 
         # if a user is blocking someone they already follow, or who follows them, when adding the block relationship, delete any follow relationship
         self.cursor.execute("INSERT INTO blocked (blocked_id, blocker_id) VALUES (?, ?)", data)
         self.connection.commit()
