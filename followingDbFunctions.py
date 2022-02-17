@@ -11,12 +11,25 @@ class followingDB:
         self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
+        
+    def checkFollowing(self, following_id, follower_id):
+        data = [following_id, follower_id]
+        self.cursor.execute("SELECT 1 FROM following WHERE following_id=? AND follower_id=?", data)
+        return self.cursor.fetchone()
+    
+    def checkBlocked(self, blocked_id, blocker_id):
+        data = [blocked_id, blocker_id]
+        self.cursor.execute("SELECT 1 FROM blocked WHERE blocked_id=? AND blocker_id=?", data)
+        return self.cursor.fetchone()
 
     # allow one user to follow another user
     def insertFollowing(self, following_id, follower_id):
-        #TODO: don't let someone follow someone they already follow
-        # TODO: don't let someone follow someone they're blocking
-        # TODO: don't let someone follow someone they're being blocked by
+        if (self.checkFollowing(following_id, follower_id)):
+            # print('already following')
+            return
+        # don't let someone follow someone they're blocking or they're being blocked by
+        if (self.checkBlocked(following_id, follower_id) or self.checkBlocked(follower_id, following_id)):
+            return
         if follower_id == following_id:
             return
         data = [following_id, follower_id]
