@@ -14,6 +14,11 @@ class followingDB:
 
     # allow one user to follow another user
     def insertFollowing(self, following_id, follower_id):
+        #TODO: don't let someone follow someone they already follow
+        # TODO: don't let someone follow someone they're blocking
+        # TODO: don't let someone follow someone they're being blocked by
+        if follower_id == following_id:
+            return
         data = [following_id, follower_id]
         self.cursor.execute("INSERT INTO following (following_id, follower_id) VALUES (?, ?)", data)
         self.connection.commit()

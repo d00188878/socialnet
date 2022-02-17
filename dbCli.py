@@ -198,14 +198,37 @@ def printBlocklistOptions():
     blocklistOptionsDialogue = """
     Viewing blocklist options.
     Select an option (mind the syntax).
-    [i] Insert block (syntax: i <user_id> <post_content> <parent_post_id (optional)>)
-    [ga] Get all user IDs that are blocked by one user (syntax: g <user_id>)
-    [u] Update one post's content by ID (syntax: u <post_content> <id>)
-    [ga] Get all posts and their information by one poster's ID (syntax: ga)
-    [gs] Get n posts from a user's list of followed users, by the ID of that user (syntax: gs <user_id> <n>)
+    [i] Insert block (syntax: i <blocked_id> <blocker_id>)
+    [ga] Get information of all users that are blocked by one user, by that user's ID. (syntax: ga <blocker_id>)
+    [r] Remove one user from another user's blocklist (syntax: r <blocked_id> <blocker_id>)
     [q] Go back
     """
     print(blocklistOptionsDialogue)
+
+def validateBlocklistOption(choice):
+    if choice[0] == "i":
+        if len(choice) >= 3:
+            DGF.handleInsertBlocked(choice[1], choice[2])
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "ga":
+        if len(choice) >= 2:
+            print(DGF.handleGetAllBlockedByBlockerId(choice[1]))
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "r":
+        if len(choice) >= 3:
+            DGF.handleRemoveBlock(choice[1], choice[2])
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "q":
+        return True
+    else:
+        print("Invalid input.")
+        return False
 
 def getBlocklistsQueryInput():
     notFinished = True

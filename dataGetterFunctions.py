@@ -90,3 +90,15 @@ def handleGetAllDislikesByPostId(post_id):
 def recreateDb():
     db = newDB()
     db.createFreshDb()
+
+def handleInsertBlocked(blocked_id, blocker_id):
+    db = blockedDB()
+    db.insertBlocked(blocked_id, blocker_id)
+
+def handleGetAllBlockedByBlockerId(blocker_id):
+    db = blockedDB()
+    return db.getAllBlockedByBlockerId(blocker_id)
+
+def handleRemoveBlock(blocked_id, blocker_id):
+    db = blockedDB()
+    db.removeBlock(blocked_id, blocker_id)
