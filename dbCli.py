@@ -4,6 +4,7 @@ import dataGetterFunctions as DGF
 # TODO: ALLOW POST REMOVAL
 #TODO: ALLOW USER REMOVAL
 #TODO: CASCADE WHEN USER DELETED
+#TODO: clean up data ordering in db functions and table
 
 def getUserInput():
     cin = input()
@@ -236,6 +237,72 @@ def getBlocklistsQueryInput():
         printBlocklistOptions()
         choice = selectOption()
         if validateBlocklistOption(choice):
+            break
+    return
+
+def printVoteOptions():
+    voteOptionsDialogue = """
+    Viewing vote options.
+    Select an option (mind the syntax).
+    [i] Insert vote (syntax: i <vote_type (0 for like, 1 for dislike)> <voter_id> <post_id>)
+    [ga] Get all votes by post ID (syntax: ga <post_id>)
+    [gl] Get all likes on a post by ID (syntax: gl <post_id>)
+    [gd] Get all dislikes on a post by ID (syntax: gd <post_id>)
+    [u] Update a vote's type (syntax: u <vote_type> <voter_id> <post_id>)
+    [r] Remove one vote from a post (syntax: r <voter_id> <post_id>)
+    [q] Go back
+    """
+    print(voteOptionsDialogue)
+
+def validateVoteOption(choice):
+    if choice[0] == "i":
+        if len(choice) >= 4:
+            DGF.handleInsertVote(choice[1], choice[2], choice[3])
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "ga":
+        if len(choice) >= 2:
+            print(DGF.handleGetAllVotesByPostId(choice[1]))
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "gl":
+        if len(choice) >= 2:
+            print(DGF.handleGetAllLikesByPostId(choice[1]))
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "gd":
+        if len(choice) >= 2:
+            print(DGF.handleGetAllDislikesByPostId(choice[1]))
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "r":
+        if len(choice) >= 3:
+            DGF.handleRemoveVote(choice[1], choice[2])
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "u":
+        if len(choice) >= 3:
+            DGF.handleUpdateVote(choice[1], choice[2], choice[3])
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "q":
+        return True
+    else:
+        print("Invalid input.")
+        return False
+
+def getVotesQueryInput():
+    notFinished = True
+    while notFinished:
+        printVoteOptions()
+        choice = selectOption()
+        if validateVoteOption(choice):
             break
     return
 

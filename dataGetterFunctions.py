@@ -87,6 +87,10 @@ def handleGetAllDislikesByPostId(post_id):
     db = votesDB()
     return db.getAllDislikesByPostId(post_id)
 
+def handleRemoveVote(voter_id, post_id):
+    db = votesDB()
+    db.removeVote(voter_id, post_id)
+
 def recreateDb():
     db = newDB()
     db.createFreshDb()

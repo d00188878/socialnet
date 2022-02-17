@@ -14,7 +14,7 @@ class votesDB:
 
     def insertVote(self, vote_type, voter_id, post_id):
         data = [vote_type, voter_id, post_id]
-        self.cursor.execute("INSERT INTO votes (voter_id, vote_type, post_id) VALUES (?, ?, ?)", data)
+        self.cursor.execute("INSERT INTO votes (vote_type, voter_id, post_id) VALUES (?, ?, ?)", data)
         self.connection.commit()
     
     def updateVote(self, vote_type, voter_id, post_id):
@@ -24,11 +24,13 @@ class votesDB:
     
     # get all the votes assigned to one particular post, regardless of type
     def getAllVotesByPostId(self, post_id):
+        #TODO: don't let someone add another vote to a post they've already voted on
         data = [post_id]
         self.cursor.execute("SELECT * FROM votes WHERE post_id=?", data)
         posts = self.cursor.fetchall()
         return posts
 
+    #TODO: this doesn't work?
     def getAllLikesByPostId(self, post_id):
         data = [post_id]
         self.cursor.execute("SELECT * FROM votes WHERE post_id=? and vote_type=0", data)
@@ -40,6 +42,11 @@ class votesDB:
         self.cursor.execute("SELECT * FROM votes WHERE post_id=? and vote_type=1", data)
         posts = self.cursor.fetchall()
         return posts
+    
+    def removeVote(self, voter_id, post_id):
+        data = [voter_id, post_id]
+        self.cursor.execute("DELETE FROM votes WHERE voter_id=? AND post_id=?", data)
+        self.connection.commit()
 
     # getAllPostsByVoterId(self, voter_id):
     #     data = [post_id]
