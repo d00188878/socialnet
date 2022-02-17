@@ -14,9 +14,19 @@ class blockedDB:
 
     # allow one user to block another user
     def insertBlocked(self, blocked_id, blocker_id):
+        # don't let someone block themselves
+        #TODO: don't let someone block someone they've already blocked
+        if blocked_id == blocker_id:
+            return
         data = [blocked_id, blocker_id]
+        # if a user is blocking someone they already follow, or who follows them, when adding the block relationship, delete any follow relationship
         self.cursor.execute("INSERT INTO blocked (blocked_id, blocker_id) VALUES (?, ?)", data)
         self.connection.commit()
+        self.cursor.execute("DELETE FROM following WHERE following_id=? AND follower_id=?", data)
+        self.connection.commit()
+        self.cursor.execute("DELETE FROM following WHERE follower_id=? AND following_id=?", data)
+        self.connection.commit()
+
 
     # get all users that one person is blocking
     def getAllBlockedByBlockerId(self, blocker_id):
@@ -26,7 +36,7 @@ class blockedDB:
         return users
 
     # allow one user to unblock another user
-    def removeBlock(self, blocking_id, blocker_id):
-        data = [blocking_id, blocker_id]
-        self.cursor.execute("DELETE FROM blocked WHERE blocking_id=? AND blocker_id=?", data)
+    def removeBlock(self, blocked_id, blocker_id):
+        data = [blocked_id, blocker_id]
+        self.cursor.execute("DELETE FROM blocked WHERE blocked_id=? AND blocker_id=?", data)
         self.connection.commit()

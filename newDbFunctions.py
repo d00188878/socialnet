@@ -63,7 +63,7 @@ class newDB:
 
         blockedData = """
         CREATE TABLE blocked (
-            blocking_id INTEGER,
+            blocked_id INTEGER,
             blocker_id INTEGER
         );
         """
