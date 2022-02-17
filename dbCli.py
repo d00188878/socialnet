@@ -130,7 +130,7 @@ def validatePostOption(choice):
         return False
     elif choice[0] == "gr":
         if len(choice) >= 2:
-            DFG.removePost(choice[1])
+            DGF.handleRemovePost(choice[1])
     elif choice[0] == "q":
         return True
     else:
