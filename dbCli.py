@@ -1,7 +1,6 @@
 import dataGetterFunctions as DGF
 
 #TODO: ONLY ALLOW USER-RELATED OPERATIONS IF ALL INVOLVED USER IDS EXIST IN THE USER TABLE
-# TODO: ALLOW POST REMOVAL
 #TODO: ALLOW USER REMOVAL
 #TODO: CASCADE WHEN USER DELETED
 #TODO: clean up data ordering in db functions and table
@@ -131,7 +130,7 @@ def validatePostOption(choice):
         return False
     elif choice[0] == "gr":
         if len(choice) >= 2:
-            DFG.removePost(choice[1])
+            DGF.handleRemovePost(choice[1])
     elif choice[0] == "q":
         return True
     else:
