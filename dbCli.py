@@ -297,7 +297,7 @@ def validateVoteOption(choice):
             notEnoughArguments()
         return False
     elif choice[0] == "u":
-        if len(choice) >= 3:
+        if len(choice) >= 4:
             DGF.handleUpdateVote(choice[1], choice[2], choice[3])
         else:
             notEnoughArguments()

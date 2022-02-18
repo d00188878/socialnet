@@ -42,9 +42,9 @@ class postDB:
             SELECT p.id, p.user_id, p.post_content, p.parent_post_id, p.time_stamp
             FROM posts p
             INNER JOIN rec_parent r ON p.id=r.parent_post_id
-            ORDER BY p.parent_post_id NULLS FIRST
         )
-        SELECT * FROM rec_parent;
+        SELECT * FROM rec_parent
+        ORDER BY time_stamp asc;
         """
         self.cursor.execute(recursiveQuery, data)
         posts = self.cursor.fetchall()
@@ -77,10 +77,9 @@ class postDB:
         data = [id, n]
         getPostsQuery = """
         SELECT * FROM posts p
-        JOIN following f1 ON f1.follower_id=p.user_id
-        JOIN following f2 ON f2.following_id=p.user_id
-        WHERE f1.follower_id=?
-        ORDER BY time_stamp LIMIT ?
+        JOIN following f ON f.following_id=p.user_id
+        WHERE f.follower_id=?
+        ORDER BY time_stamp DESC LIMIT ?
         """
         self.cursor.execute(getPostsQuery, data)
         posts = self.cursor.fetchall()

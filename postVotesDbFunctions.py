@@ -16,11 +16,19 @@ class votesDB:
         data = [id]
         self.cursor.execute("SELECT * FROM users WHERE user_id=?", data)
         return self.cursor.fetchall()
+    
+    def checkAlreadyVoted(self, post_id, user_id):
+        data = [user_id, post_id]
+        self.cursor.execute("SELECT * FROM votes WHERE voter_id=? AND post_id=?", data)
+        return self.cursor.fetchall()
 
     def insertVote(self, vote_type, voter_id, post_id):
         if not self.checkUserExists(voter_id):
             print("Check that user exists")
             return []
+        if self.checkAlreadyVoted(post_id, voter_id):
+            print("user has already voted on this post")
+            return
         data = [vote_type, voter_id, post_id]
         self.cursor.execute("INSERT INTO votes (vote_type, voter_id, post_id) VALUES (?, ?, ?)", data)
         self.connection.commit()
