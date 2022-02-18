@@ -60,7 +60,7 @@ class newDB:
             voter_id INTEGER,
             vote_type INTEGER,
             post_id INTEGER,
-            FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
+            FOREIGN KEY (voter_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
         );"""
         self.cursor.execute(voteData)
         self.connection.commit()

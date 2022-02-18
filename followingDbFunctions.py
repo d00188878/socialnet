@@ -14,7 +14,7 @@ class followingDB:
     
     def checkUserExists(self, id):
         data = [id]
-        self.cursor.execute("SELECT * FROM users WHERE users=?", data)
+        self.cursor.execute("SELECT * FROM users WHERE user_id=?", data)
         return self.cursor.fetchall()
         
     def checkFollowing(self, following_id, follower_id):

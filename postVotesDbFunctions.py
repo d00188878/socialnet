@@ -14,7 +14,7 @@ class votesDB:
     
     def checkUserExists(self, id):
         data = [id]
-        self.cursor.execute("SELECT * FROM users WHERE voter_id=?", data)
+        self.cursor.execute("SELECT * FROM users WHERE user_id=?", data)
         return self.cursor.fetchall()
 
     def insertVote(self, vote_type, voter_id, post_id):
