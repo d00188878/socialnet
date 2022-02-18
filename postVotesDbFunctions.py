@@ -11,13 +11,24 @@ class votesDB:
         self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
+    
+    def checkUserExists(self, id):
+        data = [id]
+        self.cursor.execute("SELECT * FROM users WHERE voter_id=?", data)
+        return self.cursor.fetchall()
 
     def insertVote(self, vote_type, voter_id, post_id):
+        if not self.checkUserExists(voter_id):
+            print("Check that user exists")
+            return []
         data = [vote_type, voter_id, post_id]
         self.cursor.execute("INSERT INTO votes (vote_type, voter_id, post_id) VALUES (?, ?, ?)", data)
         self.connection.commit()
     
     def updateVote(self, vote_type, voter_id, post_id):
+        if not self.checkUserExists(voter_id):
+            print("Check that user exists")
+            return []
         data = [vote_type, voter_id, post_id]
         self.cursor.execute("UPDATE votes SET vote_type=? WHERE voter_id=? and post_id=?", data)
         self.connection.commit()

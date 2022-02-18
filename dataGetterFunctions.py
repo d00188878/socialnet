@@ -55,6 +55,10 @@ def handleGetPost(id):
     db = postDB()
     return db.getPost(id)
 
+def handleGetPostAndParents(id):
+    db = postDB()
+    return db.getPostAndParents(id)
+
 def handleUpdatePost(post_content, id):
     db = postDB()
     db.updatePost(post_content, id)

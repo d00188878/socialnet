@@ -1,6 +1,5 @@
 import dataGetterFunctions as DGF
 
-#TODO: ONLY ALLOW USER-RELATED OPERATIONS IF ALL INVOLVED USER IDS EXIST IN THE USER TABLE
 #TODO: clean up data ordering in db functions and table
 
 def getUserInput():
@@ -91,7 +90,8 @@ def printPostOptions():
     [u] Update one post's content by ID (syntax: u <post_content> <id>)
     [ga] Get all posts and their information by one poster's ID (syntax: ga <user_id>)
     [gs] Get n posts from a user's list of followed users, by the ID of that user (syntax: gs <user_id> <n>)
-    [gr] Remove a post by post ID (syntax: gd <post_content> <id>)
+    [gp] Get a post and all of its parent posts
+    [r] Remove a post by post ID (syntax: r <id>)
     [q] Go back
     """
     print(postOptionsDialogue)
@@ -103,6 +103,12 @@ def validatePostOption(choice):
                 DGF.handleInsertPost(choice[1], choice[2], choice[3])
             else:
                 DGF.handleInsertPost(choice[1], choice[2])
+        else:
+            notEnoughArguments()
+        return False
+    elif choice[0] == "gp":
+        if len(choice) >= 2:
+            print(DGF.handleGetPostAndParents(choice[1]))
         else:
             notEnoughArguments()
         return False
@@ -130,7 +136,7 @@ def validatePostOption(choice):
         else:
             notEnoughArguments()
         return False
-    elif choice[0] == "gr":
+    elif choice[0] == "r":
         if len(choice) >= 2:
             DGF.handleRemovePost(choice[1])
     elif choice[0] == "q":
