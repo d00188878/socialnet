@@ -11,6 +11,11 @@ class followingDB:
         self.connection = sqlite3.connect("network.db")
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
+    
+    def checkUserExists(self, id):
+        data = [id]
+        self.cursor.execute("SELECT * FROM users WHERE users=?", data)
+        return self.cursor.fetchall()
         
     def checkFollowing(self, following_id, follower_id):
         data = [following_id, follower_id]
@@ -24,20 +29,26 @@ class followingDB:
 
     # allow one user to follow another user
     def insertFollowing(self, following_id, follower_id):
+        if not self.checkUserExists(following_id) or not self.checkUserExists(follower_id):
+            print("Check that both users exist")
+            return []
         if (self.checkFollowing(following_id, follower_id)):
             # print('already following')
-            return
+            return []
         # don't let someone follow someone they're blocking or they're being blocked by
         if (self.checkBlocked(following_id, follower_id) or self.checkBlocked(follower_id, following_id)):
-            return
+            return []
         if follower_id == following_id:
-            return
+            return []
         data = [following_id, follower_id]
         self.cursor.execute("INSERT INTO following (following_id, follower_id) VALUES (?, ?)", data)
         self.connection.commit()
 
     # get all users that one person is following
     def getAllFollowingByFollowerId(self, follower_id):
+        if not self.checkUserExists(follower_id):
+            print("Check that user exists")
+            return []
         data = [follower_id]
         getFollowingQuery = """
         SELECT * FROM users
@@ -51,6 +62,9 @@ class followingDB:
     
     # get all users that are following one particular person
     def getAllFollowersByFollowingId(self, following_id):
+        if not self.checkUserExists(following_id):
+            print("Check that user exists")
+            return []
         data = [following_id]
         getFollowerQuery = """
         SELECT * FROM users
@@ -64,6 +78,9 @@ class followingDB:
 
     # allow one user to unfollow another user
     def removeFollow(self, following_id, follower_id):
+        if not self.checkUserExists(following_id) or not self.checkUserExists(follower_id):
+            print("Check that both users exist")
+            return []
         data = [following_id, follower_id]
         self.cursor.execute("DELETE FROM following WHERE following_id=? AND follower_id=?", data)
         self.connection.commit()
