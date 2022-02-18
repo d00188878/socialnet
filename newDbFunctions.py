@@ -29,7 +29,6 @@ class newDB:
             username TEXT NOT NULL UNIQUE,
             email TEXT NOT NULL UNIQUE,
             password_encrypted TEXT NOT NULL
-            FOREIGN KEY (user_id)
         );"""
         self.cursor.execute(tableData)
         self.connection.commit()
@@ -37,8 +36,9 @@ class newDB:
         followingData = """
         CREATE TABLE following (
             following_id INTEGER,
-            follower_id INTEGER
-            FOREIGN KEY (following) REFERENCES users (user_id) ON DELETE CASCADE
+            follower_id INTEGER,
+            FOREIGN KEY (following_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+            FOREIGN KEY  (follower_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
         );"""
         self.cursor.execute(followingData)
         self.connection.commit()
@@ -49,8 +49,8 @@ class newDB:
             user_id INTEGER,
             post_content TEXT,
             parent_post_id INTEGER,
-            time_stamp DATE DEFAULT CURRENT_TIMESTAMP
-            FOREIGN KEY (user_id, id) REFERENCES users (user_id) ON DELETE CASCADE
+            time_stamp DATE DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
         );"""
         self.cursor.execute(postData)
         self.connection.commit()
@@ -59,8 +59,8 @@ class newDB:
         CREATE TABLE votes (
             voter_id INTEGER,
             vote_type INTEGER,
-            post_id INTEGER
-            FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE
+            post_id INTEGER,
+            FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE ON UPDATE CASCADE
         );"""
         self.cursor.execute(voteData)
         self.connection.commit()
@@ -68,8 +68,9 @@ class newDB:
         blockedData = """
         CREATE TABLE blocked (
             blocked_id INTEGER,
-            blocker_id INTEGER
-            FOREIGN KEY (blocker_id, blocked_id) REFERENCES users (user_id) ON DELETE CASCADE
+            blocker_id INTEGER,
+            FOREIGN KEY (blocker_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
+            FOREIGN KEY (blocked_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE
         );
         """
         self.cursor.execute(blockedData)
