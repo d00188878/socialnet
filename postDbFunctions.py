@@ -21,7 +21,7 @@ class postDB:
 
     # the parent post id thing means we're going to let people do reblogs of other posts and add on their own comments, a la tumblr
     def insertPost(self, user_id, post_content, parent_post_id):
-        if not self.checkUserExists(user_id):
+        if self.checkUserExists(user_id) == []:
             print("Check that user exists")
             return []
         data = [user_id, post_content, parent_post_id]
@@ -63,7 +63,7 @@ class postDB:
     
     # get all existing posts that one person has ever posted
     def getAllPostsByPosterId(self, user_id):
-        if not self.checkUserExists(user_id):
+        if self.checkUserExists(user_id) == []:
             print("Check that user exists")
             return []
         data = [user_id]

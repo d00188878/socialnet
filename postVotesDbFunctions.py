@@ -23,7 +23,7 @@ class votesDB:
         return self.cursor.fetchall()
 
     def insertVote(self, vote_type, voter_id, post_id):
-        if not self.checkUserExists(voter_id):
+        if self.checkUserExists(voter_id) == []:
             print("Check that user exists")
             return []
         if self.checkAlreadyVoted(post_id, voter_id):
@@ -34,7 +34,7 @@ class votesDB:
         self.connection.commit()
     
     def updateVote(self, vote_type, voter_id, post_id):
-        if not self.checkUserExists(voter_id):
+        if self.checkUserExists(voter_id) == []:
             print("Check that user exists")
             return []
         data = [vote_type, voter_id, post_id]

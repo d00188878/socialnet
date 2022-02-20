@@ -12,10 +12,12 @@ class blockedDB:
         self.connection.row_factory = dict_factory
         self.cursor = self.connection.cursor()
     
-    def checkUserExists(self, id):
-        data = [id, id]
+    def checkUserExists(self, first, second):
+        data = [first, second]
         self.cursor.execute("SELECT * FROM blocked WHERE blocker_id=? OR blocked_id=?", data)
-        return self.cursor.fetchall()
+        users= self.cursor.fetchall()
+        print(users)
+        return users
     
     def checkBlocked(self, blocked_id, blocker_id):
         data = [blocked_id, blocker_id]
@@ -24,9 +26,6 @@ class blockedDB:
 
     # allow one user to block another user
     def insertBlocked(self, blocked_id, blocker_id):
-        if not self.checkUserExists(blocked_id) or not self.checkUserExists(blocker_id):
-            print("Check that both users exist.")
-            return []
         # don't let someone block themselves
         if blocked_id == blocker_id:
             return []
@@ -44,9 +43,6 @@ class blockedDB:
 
     # get all users that one person is blocking
     def getAllBlockedByBlockerId(self, blocker_id):
-        if not self.checkUserExists(blocker_id):
-            print("Check that user exists.")
-            return []
         data = [blocker_id]
         self.cursor.execute("SELECT * FROM blocked WHERE blocker_id=?", data)
         users = self.cursor.fetchall()
@@ -54,9 +50,6 @@ class blockedDB:
 
     # allow one user to unblock another user
     def removeBlock(self, blocked_id, blocker_id):
-        if not self.checkUserExists(blocked_id) or not self.checkUserExists(blocker_id):
-            print("Check that both users exist.")
-            return []
         data = [blocked_id, blocker_id]
         self.cursor.execute("DELETE FROM blocked WHERE blocked_id=? AND blocker_id=?", data)
         self.connection.commit()
